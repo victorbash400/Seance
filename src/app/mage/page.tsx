@@ -98,7 +98,7 @@ function MageContent() {
                   boxShadow: `0 0 15px ${path.glowColor}`,
                 }}
                 onClick={() => {
-                  console.log(`Selected ${path.title} for ${country}`);
+                  router.push(`/book?country=${encodeURIComponent(country)}&path=${encodeURIComponent(path.title)}`);
                 }}
               >
                 <span className="text-orange-300 font-serif font-medium text-lg">
