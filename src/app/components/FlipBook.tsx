@@ -29,27 +29,26 @@ const FlipBook = forwardRef<FlipBookRef, FlipBookProps>(({ children, onFlip, cla
   useImperativeHandle(ref, () => ({
     flipNext: () => bookRef.current?.pageFlip().flipNext(),
     turnToPage: (page: number) => bookRef.current?.pageFlip().turnToPage(page),
-    pageFlip: () => bookRef.current?.pageFlip()
+    pageFlip: () => {
+      console.log("pageFlip object:", bookRef.current?.pageFlip());
+      return bookRef.current?.pageFlip();
+    }
   }));
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-gray-900 via-black to-gray-900 p-8">
       <HTMLFlipBook
         ref={bookRef}
-        width={400}
-        height={600}
+        width={640}
+        height={480}
         size="fixed"
-        minWidth={315}
-        maxWidth={1000}
-        minHeight={400}
-        maxHeight={1533}
         drawShadow={true}
-        flippingTime={1000}
-        usePortrait={true}
-        startZIndex={0}
+        flippingTime={600}
+        usePortrait={false}
+        startZIndex={30}
         autoSize={false}
-        maxShadowOpacity={0.5}
-        showCover={false}
+        maxShadowOpacity={0.8}
+        showCover={true}
         mobileScrollSupport={true}
         onFlip={onFlip}
         className={`shadow-2xl ${className}`}
@@ -60,7 +59,7 @@ const FlipBook = forwardRef<FlipBookRef, FlipBookProps>(({ children, onFlip, cla
         swipeDistance={30}
         renderOnlyPageLengthChange={false}
         showPageCorners={true}
-        disableFlipByClick={false}
+        disableFlipByClick={true}
       >
         {children}
       </HTMLFlipBook>
