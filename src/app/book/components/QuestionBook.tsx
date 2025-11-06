@@ -15,6 +15,8 @@ interface QuestionBookProps {
 export default function QuestionBook({ country, path, questions, onComplete }: QuestionBookProps) {
   const bookRef = useRef<FlipBookRef>(null);
   const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+  const [bookState, setBookState] = useState<string>('read');
   const [answers, setAnswers] = useState<number[]>([]);
   const [selectedAnswers, setSelectedAnswers] = useState<{[key: number]: number | null}>({});
   const [showExplanations, setShowExplanations] = useState<{[key: number]: boolean}>({});
@@ -84,48 +86,112 @@ export default function QuestionBook({ country, path, questions, onComplete }: Q
     }
   }, [selectedAnswers, questions, currentPage, answeredPages, answers, score, country, path]);
 
-  const handleNextPage = useCallback(() => {
-    if (canTurnPage) {
-      bookRef.current?.flipNext();
-      setCanTurnPage(false);
-    }
-  }, [canTurnPage]);
+
 
   const onFlip = useCallback((e: any) => {
     const newPage = e.data;
-
-    console.log('onFlip event triggered');
-    console.log('Current Page:', currentPage);
-    console.log('New Page:', newPage);
-    console.log('Answered Pages:', answeredPages);
     
     // Check if user is trying to go to a page they haven't unlocked
     if (newPage > currentPage && !answeredPages.has(newPage)) {
       // Prevent unauthorized page turns by going back
-      console.log('Page turn rejected: New page has not been unlocked.');
       setTimeout(() => {
         bookRef.current?.turnToPage(currentPage);
       }, 100);
       return;
     }
 
-    console.log('Page turn allowed.');
     // Allow the page turn
     setCurrentPage(newPage);
   }, [currentPage, answeredPages]);
 
+  const onChangeState = useCallback((e: any) => {
+    setBookState(e.data);
+  }, []);
+
+  const onInit = useCallback((e: any) => {
+    setTotalPages(bookRef.current?.pageFlip()?.getPageCount() || 0);
+  }, []);
+
+  const handlePrevPage = useCallback(() => {
+    bookRef.current?.pageFlip()?.flipPrev();
+  }, []);
+
+  const handleNextPage = useCallback(() => {
+    bookRef.current?.pageFlip()?.flipNext();
+  }, []);
+
   return (
-    <FlipBook ref={bookRef} onFlip={onFlip}>
+    <div className="relative">
+      {/* Book UI Controls */}
+      <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-20">
+        <div className="bg-black bg-opacity-70 text-white px-4 py-2 rounded-lg flex items-center gap-4 paint-font">
+          {/* Progress Bar */}
+          <div className="flex items-center gap-2">
+            <span className="text-sm">Progress:</span>
+            <div className="w-32 bg-gray-600 rounded-full h-2">
+              <div 
+                className="bg-amber-500 h-2 rounded-full transition-all duration-300"
+                style={{ width: `${(score / questions.length) * 100}%` }}
+              />
+            </div>
+            <span className="text-sm">{score}/{questions.length}</span>
+          </div>
+          
+          {/* Page Counter */}
+          <div className="text-sm">
+            Page {currentPage + 1} of {totalPages}
+          </div>
+        </div>
+      </div>
+
+      {/* Navigation Buttons */}
+      <button
+        onClick={handlePrevPage}
+        disabled={currentPage <= 0}
+        className="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 bg-black bg-opacity-70 text-white p-3 rounded-full hover:bg-opacity-90 disabled:opacity-50 disabled:cursor-not-allowed paint-font"
+      >
+        ←
+      </button>
+      
+      <button
+        onClick={handleNextPage}
+        disabled={currentPage >= totalPages - 1}
+        className="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 bg-black bg-opacity-70 text-white p-3 rounded-full hover:bg-opacity-90 disabled:opacity-50 disabled:cursor-not-allowed paint-font"
+      >
+        →
+      </button>
+
+      {/* Book State Indicator */}
+      {bookState === 'flipping' && (
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-30">
+          <div className="bg-black bg-opacity-70 text-white px-4 py-2 rounded-lg">
+            <span className="paint-font">Turning page...</span>
+          </div>
+        </div>
+      )}
+
+    <FlipBook 
+      ref={bookRef} 
+      onFlip={onFlip}
+      onChangeState={onChangeState}
+      onInit={onInit}
+      className="book-shadow"
+    >
       {/* Cover Page */}
-      <Page data-density="hard">
-        <div className="flex flex-col items-center justify-center h-full text-center">
-          <h1 className="text-3xl font-bold text-amber-800 mb-4">
+      <Page data-density="hard" className="!border-0">
+        <div 
+          className="h-full bg-amber-200 bg-cover bg-center bg-no-repeat flex flex-col items-center justify-center text-center"
+          style={{
+            backgroundImage: "url('/book-cover.png'), url('/book-cover.jpg')",
+          }}
+        >
+          <h1 className="text-4xl font-bold text-amber-900 mb-4 paint-font page-title">
             {path}
           </h1>
-          <h2 className="text-xl text-amber-700 mb-8">
+          <h2 className="text-2xl text-amber-800 mb-8 paint-font">
             {country}
           </h2>
-          <p className="text-amber-600 italic">
+          <p className="text-amber-700 italic">
             Turn the page to begin your journey...
           </p>
         </div>
@@ -133,7 +199,12 @@ export default function QuestionBook({ country, path, questions, onComplete }: Q
 
       {/* Inside Cover */}
       <Page data-density="hard">
-        <div className="bg-amber-100 h-full"></div>
+        <div 
+          className="h-full bg-amber-100 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: "url('/book-cover.png'), url('/book-cover.jpg')",
+          }}
+        />
       </Page>
 
       {/* Question Pages */}
@@ -146,7 +217,7 @@ export default function QuestionBook({ country, path, questions, onComplete }: Q
         return (
           <Page key={index}>
             <div className="h-full flex flex-col">
-              <h3 className="text-lg font-bold text-amber-800 mb-6">
+              <h3 className="text-lg font-bold text-amber-800 mb-6 paint-font page-title">
                 Question {index + 1}
                 {isAnswered && ' ✓'}
                 {canInteract && ' (Active)'}
@@ -161,29 +232,38 @@ export default function QuestionBook({ country, path, questions, onComplete }: Q
                   const isCorrectAnswer = optionIndex === question.correctAnswer;
                   const wasSelected = answers[index] === optionIndex;
                   const currentSelected = selectedAnswers[index];
-                  
+
+                  // Compose spooky classes
+                  const base = 'w-full p-3 text-left rounded border transition-colors spooky-option paint-font';
+                  let stateClasses = '';
+
+                  if (isAnswered) {
+                    if (wasSelected && isCorrectAnswer) {
+                      stateClasses = 'spooky-correct border-green-400';
+                    } else if (wasSelected) {
+                      stateClasses = 'spooky-wrong border-red-400';
+                    } else if (isCorrectAnswer) {
+                      stateClasses = 'spooky-correct border-green-300';
+                    } else {
+                      stateClasses = 'bg-gray-800/10 border-gray-600 text-gray-300';
+                    }
+                  } else if (!canInteract) {
+                    stateClasses = 'bg-gray-800/5 border-gray-700 text-gray-400 cursor-not-allowed';
+                  } else if (currentSelected === optionIndex) {
+                    stateClasses = 'bg-amber-600/10 border-amber-400 text-amber-300';
+                  } else {
+                    stateClasses = 'bg-[#0b0b0b] border-amber-300 hover:shadow-[0_10px_30px_rgba(255,140,0,0.08)] hover:scale-[1.01] text-amber-100';
+                  }
+
                   return (
                     <button
                       key={optionIndex}
                       onClick={() => canInteract ? handleAnswerSelect(index, optionIndex) : null}
                       disabled={!canInteract}
-                      className={`w-full p-3 text-left rounded border transition-colors ${
-                        isAnswered
-                          ? wasSelected && isCorrectAnswer
-                            ? 'bg-green-100 border-green-400 text-green-800' // Correct answer
-                            : wasSelected
-                            ? 'bg-red-100 border-red-400 text-red-800' // Wrong answer selected
-                            : isCorrectAnswer
-                            ? 'bg-green-50 border-green-300 text-green-700' // Correct answer (not selected)
-                            : 'bg-gray-100 border-gray-300 text-gray-500' // Other options
-                          : !canInteract
-                          ? 'bg-gray-100 border-gray-300 text-gray-500 cursor-not-allowed'
-                          : currentSelected === optionIndex
-                          ? 'bg-amber-200 border-amber-400'
-                          : 'bg-white border-amber-300 hover:bg-amber-50'
-                      }`}
+                      className={`${base} ${stateClasses}`}
                     >
-                      {String.fromCharCode(65 + optionIndex)}. {option}
+                      <span className="mr-3 font-bold text-lg">{String.fromCharCode(65 + optionIndex)}</span>
+                      <span>{option}</span>
                     </button>
                   );
                 })}
@@ -222,7 +302,12 @@ export default function QuestionBook({ country, path, questions, onComplete }: Q
                             Correct! You may turn the page.
                           </p>
                           <button
-                            onClick={handleNextPage}
+                            onClick={() => {
+                              if (canTurnPage) {
+                                bookRef.current?.flipNext();
+                                setCanTurnPage(false);
+                              }
+                            }}
                             className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition-colors text-sm"
                           >
                             Turn Page →
@@ -261,7 +346,7 @@ export default function QuestionBook({ country, path, questions, onComplete }: Q
       {/* Completion Page */}
       <Page data-density="hard">
         <div className="flex flex-col items-center justify-center h-full text-center">
-          <h2 className="text-2xl font-bold text-amber-800 mb-4">
+          <h2 className="text-2xl font-bold text-amber-800 mb-4 paint-font">
             Journey Complete!
           </h2>
           <p className="text-amber-700 mb-4">
@@ -286,5 +371,6 @@ export default function QuestionBook({ country, path, questions, onComplete }: Q
         </div>
       </Page>
     </FlipBook>
+    </div>
   );
 }

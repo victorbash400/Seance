@@ -66,22 +66,21 @@ export default function WorldMap() {
 
       {/* Top Bar for Text */}
       <div className="absolute top-0 left-0 w-full h-20 bg-gradient-to-b from-black/80 to-transparent z-40 flex items-center justify-center">
-        <h1 className="text-4xl font-bold text-orange-400 font-serif tracking-wider drop-shadow-lg">
+        <h1 className="text-4xl font-bold text-orange-400 font-serif tracking-wider drop-shadow-lg paint-font">
           SÉANCE
         </h1>
       </div>
 
       {/* Bottom Bar for Text */}
       <div className="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-t from-black/90 to-transparent z-40 flex items-center justify-center">
-        <div className="bg-gradient-to-r from-black/90 via-black/80 to-black/90 px-6 py-3 rounded-lg backdrop-blur-sm">
-          <p className="text-xl text-orange-400 font-serif tracking-wide font-medium"
-             style={{
-               textShadow: '0 0 20px rgba(255, 165, 0, 0.8), 0 0 40px rgba(255, 165, 0, 0.4)',
-               filter: 'drop-shadow(0 0 10px rgba(255, 165, 0, 0.6))'
-             }}>
-            Unlock dark folklore this kiroween
-          </p>
-        </div>
+        {/* Render the bottom text directly on the bar (no rounded box or backdrop) */}
+        <p className="text-xl text-orange-400 font-serif tracking-wide font-medium paint-font px-6 py-3"
+           style={{
+             textShadow: '0 0 20px rgba(255, 165, 0, 0.8), 0 0 40px rgba(255, 165, 0, 0.4)',
+             filter: 'drop-shadow(0 0 10px rgba(255, 165, 0, 0.6))'
+           }}>
+          Unlock dark folklore this kiroween
+        </p>
       </div>
 
       {/* Floating Spooky Elements */}

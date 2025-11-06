@@ -1,0 +1,25 @@
+{
+  "enabled": true,
+  "name": "README Auto-Updater",
+  "description": "Automatically updates README files when source code, configuration, or package files are modified to keep documentation in sync with code changes",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      "seance/src/**/*.tsx",
+      "seance/src/**/*.ts",
+      "seance/package.json",
+      "seance/next.config.ts",
+      "seance/tsconfig.json",
+      "react-pageflip/src/**/*.tsx",
+      "react-pageflip/src/**/*.ts",
+      "react-pageflip/package.json",
+      "react-pageflip/rollup.config.js",
+      "react-pageflip/tsconfig.json"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Code changes have been detected in the workspace. Please review the modified files and update the relevant README.md files to reflect any new features, API changes, configuration updates, or structural modifications. Focus on keeping the documentation accurate and helpful for users and developers. Update both seance/README.md and react-pageflip/README.md as appropriate based on which project was modified."
+  }
+}
