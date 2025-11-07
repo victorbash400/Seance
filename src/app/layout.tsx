@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { Creepster } from 'next/font/google';
+import { Creepster } from "next/font/google";
 import "./globals.css";
 import SoundManager from "./components/SoundManager";
 
@@ -15,10 +15,10 @@ const geistMono = Geist_Mono({
 });
 
 const creepster = Creepster({
-  weight: '400',
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-creepster',
+  weight: "400",
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-creepster",
 });
 
 export const metadata: Metadata = {

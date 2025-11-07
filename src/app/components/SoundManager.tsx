@@ -6,7 +6,9 @@ interface SoundManagerProps {
   enablePageFlip?: boolean;
 }
 
-export default function SoundManager({ enablePageFlip = false }: SoundManagerProps) {
+export default function SoundManager({
+  enablePageFlip = false,
+}: SoundManagerProps) {
   const [isMuted, setIsMuted] = useState(false);
   const [volume, setVolume] = useState(50);
   const [showVolumeSlider, setShowVolumeSlider] = useState(false);
@@ -29,22 +31,24 @@ export default function SoundManager({ enablePageFlip = false }: SoundManagerPro
 
   useEffect(() => {
     // Initialize background music
-    const bgMusic = new Audio('/sound/creepy_music.mp3');
+    const bgMusic = new Audio("/sound/creepy_music.mp3");
     bgMusic.loop = true;
     bgMusic.volume = 0.3;
     backgroundMusicRef.current = bgMusic;
 
     // Start playing background music
-    bgMusic.play().catch(err => console.log('Background music autoplay blocked:', err));
+    bgMusic
+      .play()
+      .catch((err) => console.log("Background music autoplay blocked:", err));
 
     // Schedule random owl hoots (every 15-30 seconds)
     const scheduleOwl = () => {
       const delay = Math.random() * 15000 + 15000; // 15-30 seconds
       owlTimerRef.current = setTimeout(() => {
         if (!isMutedRef.current && volumeRef.current > 0) {
-          const owl = new Audio('/sound/owl_hoot.mp3');
+          const owl = new Audio("/sound/owl_hoot.mp3");
           owl.volume = ambientVolumeRef.current;
-          owl.play().catch(err => console.log('Owl sound failed:', err));
+          owl.play().catch((err) => console.log("Owl sound failed:", err));
         }
         scheduleOwl();
       }, delay);
@@ -55,9 +59,9 @@ export default function SoundManager({ enablePageFlip = false }: SoundManagerPro
       const delay = Math.random() * 20000 + 20000; // 20-40 seconds
       wolfTimerRef.current = setTimeout(() => {
         if (!isMutedRef.current && volumeRef.current > 0) {
-          const wolf = new Audio('/sound/wolf-howl.mp3');
+          const wolf = new Audio("/sound/wolf-howl.mp3");
           wolf.volume = ambientVolumeRef.current;
-          wolf.play().catch(err => console.log('Wolf sound failed:', err));
+          wolf.play().catch((err) => console.log("Wolf sound failed:", err));
         }
         scheduleWolf();
       }, delay);
@@ -68,9 +72,11 @@ export default function SoundManager({ enablePageFlip = false }: SoundManagerPro
       const delay = Math.random() * 20000 + 30000; // 30-50 seconds
       heartbeatTimerRef.current = setTimeout(() => {
         if (!isMutedRef.current && volumeRef.current > 0) {
-          const heartbeat = new Audio('/sound/heartbeat.mp3');
+          const heartbeat = new Audio("/sound/heartbeat.mp3");
           heartbeat.volume = ambientVolumeRef.current * 0.7; // Slightly quieter
-          heartbeat.play().catch(err => console.log('Heartbeat sound failed:', err));
+          heartbeat
+            .play()
+            .catch((err) => console.log("Heartbeat sound failed:", err));
         }
         scheduleHeartbeat();
       }, delay);
@@ -94,7 +100,9 @@ export default function SoundManager({ enablePageFlip = false }: SoundManagerPro
       if (isMuted) {
         backgroundMusicRef.current.pause();
       } else {
-        backgroundMusicRef.current.play().catch(err => console.log('Resume music failed:', err));
+        backgroundMusicRef.current
+          .play()
+          .catch((err) => console.log("Resume music failed:", err));
       }
     }
   }, [isMuted]);
@@ -123,15 +131,15 @@ export default function SoundManager({ enablePageFlip = false }: SoundManagerPro
   };
 
   return (
-    <div 
+    <div
       className="fixed bottom-4 left-4 z-50 flex flex-col items-center gap-2"
       onMouseEnter={() => setShowVolumeSlider(true)}
       onMouseLeave={() => setShowVolumeSlider(false)}
     >
       {/* Volume Slider - Vertical */}
-      <div 
+      <div
         className={`transition-all duration-300 overflow-hidden ${
-          showVolumeSlider ? 'h-32 opacity-100' : 'h-0 opacity-0'
+          showVolumeSlider ? "h-32 opacity-100" : "h-0 opacity-0"
         }`}
       >
         <div className="bg-black bg-opacity-70 px-2 py-3 rounded-full flex flex-col items-center gap-2">
@@ -144,9 +152,9 @@ export default function SoundManager({ enablePageFlip = false }: SoundManagerPro
             onChange={handleVolumeChange}
             className="h-20 w-1 bg-gray-600 rounded-lg appearance-none cursor-pointer accent-orange-500"
             style={{
-              writingMode: 'vertical-lr',
-              direction: 'rtl',
-              background: `linear-gradient(to top, #f97316 0%, #f97316 ${volume}%, #4b5563 ${volume}%, #4b5563 100%)`
+              writingMode: "vertical-lr",
+              direction: "rtl",
+              background: `linear-gradient(to top, #f97316 0%, #f97316 ${volume}%, #4b5563 ${volume}%, #4b5563 100%)`,
             }}
           />
         </div>
@@ -160,19 +168,57 @@ export default function SoundManager({ enablePageFlip = false }: SoundManagerPro
       >
         {isMuted || volume === 0 ? (
           // Muted icon
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"
+            />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"
+            />
           </svg>
         ) : volume < 50 ? (
           // Low volume icon
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m-9.95-1.05H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M15.536 8.464a5 5 0 010 7.072m-9.95-1.05H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"
+            />
           </svg>
         ) : (
           // High volume icon
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"
+            />
           </svg>
         )}
       </button>
@@ -187,7 +233,7 @@ export function useSoundEffect(soundPath: string, volume: number = 0.5) {
     if (!isMuted) {
       const audio = new Audio(soundPath);
       audio.volume = volume;
-      audio.play().catch(err => console.log('Sound effect failed:', err));
+      audio.play().catch((err) => console.log("Sound effect failed:", err));
     }
   };
 

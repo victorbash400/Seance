@@ -6,7 +6,9 @@ interface SmokeBackgroundProps {
   variant?: "smoke" | "desk"; // smoke = animated smoky background; desk = static desk image
 }
 
-export default function SmokeBackground({ variant = "smoke" }: SmokeBackgroundProps) {
+export default function SmokeBackground({
+  variant = "smoke",
+}: SmokeBackgroundProps) {
   const [isClient, setIsClient] = useState(false);
   const [hasWebGL, setHasWebGL] = useState(false);
 
@@ -14,7 +16,8 @@ export default function SmokeBackground({ variant = "smoke" }: SmokeBackgroundPr
     if (typeof window !== "undefined") {
       setIsClient(true);
       const canvas = document.createElement("canvas");
-      const gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+      const gl =
+        canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
       setHasWebGL(!!gl);
     }
   }, []);
@@ -46,7 +49,10 @@ export default function SmokeBackground({ variant = "smoke" }: SmokeBackgroundPr
           if (mounted && Comp) setSmokeComp(() => Comp);
         })
         .catch((err) => {
-          console.warn("react-smoke import failed, falling back to CSS smoke:", err);
+          console.warn(
+            "react-smoke import failed, falling back to CSS smoke:",
+            err,
+          );
         });
     }
     return () => {
@@ -58,7 +64,7 @@ export default function SmokeBackground({ variant = "smoke" }: SmokeBackgroundPr
   if (SmokeComp) {
     return (
       <div className="absolute inset-0 z-0">
-        <SmokeComp 
+        <SmokeComp
           smoke={{
             enableTurbulence: true,
             turbulenceStrength: [0.08, 0.08, 0.08],
@@ -69,15 +75,16 @@ export default function SmokeBackground({ variant = "smoke" }: SmokeBackgroundPr
             opacity: 0.6,
             enableRotation: true,
             rotation: [0, 0, 0.02],
-            maxVelocity: [40, 40, 20]
+            maxVelocity: [40, 40, 20],
           }}
         />
         {/* Reddish overlay for extra tint */}
-        <div 
+        <div
           className="absolute inset-0 pointer-events-none"
           style={{
-            background: "radial-gradient(circle at center, rgba(139, 0, 0, 0.15), rgba(139, 0, 0, 0.05))",
-            mixBlendMode: "multiply"
+            background:
+              "radial-gradient(circle at center, rgba(139, 0, 0, 0.15), rgba(139, 0, 0, 0.05))",
+            mixBlendMode: "multiply",
           }}
         />
       </div>
@@ -93,25 +100,27 @@ export default function SmokeBackground({ variant = "smoke" }: SmokeBackgroundPr
         style={{
           position: "absolute",
           inset: 0,
-          background: "radial-gradient(circle at 15% 20%, rgba(139,0,0,0.08), transparent 30%), radial-gradient(circle at 85% 10%, rgba(139,0,0,0.06), transparent 35%), radial-gradient(circle at 50% 80%, rgba(139,0,0,0.05), transparent 25%)",
+          background:
+            "radial-gradient(circle at 15% 20%, rgba(139,0,0,0.08), transparent 30%), radial-gradient(circle at 85% 10%, rgba(139,0,0,0.06), transparent 35%), radial-gradient(circle at 50% 80%, rgba(139,0,0,0.05), transparent 25%)",
           mixBlendMode: "screen",
           filter: "blur(20px)",
           opacity: 0.9,
         }}
       />
-      
+
       {/* Turbulent wind layers */}
       <div
         aria-hidden
         style={{
           position: "absolute",
           inset: 0,
-          background: "linear-gradient(45deg, rgba(139,0,0,0.12), rgba(80,0,0,0.08), rgba(139,0,0,0.15))",
+          background:
+            "linear-gradient(45deg, rgba(139,0,0,0.12), rgba(80,0,0,0.08), rgba(139,0,0,0.15))",
           opacity: 0.4,
           filter: "blur(15px)",
         }}
       />
-      
+
       <style>{`
         @keyframes turbulentWind {
           0% { 
@@ -195,7 +204,7 @@ export default function SmokeBackground({ variant = "smoke" }: SmokeBackgroundPr
           mix-blend-mode: screen;
         }
       `}</style>
-      
+
       <div className="turbulent-smoke-layer-1" />
       <div className="turbulent-smoke-layer-2" />
       <div className="turbulent-smoke-layer-3" />

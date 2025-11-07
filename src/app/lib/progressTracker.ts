@@ -12,12 +12,12 @@ export interface UserProgress {
 }
 
 export const getProgress = (): UserProgress => {
-  if (typeof window === 'undefined') {
+  if (typeof window === "undefined") {
     return { completedPaths: {} };
   }
-  
+
   try {
-    const stored = localStorage.getItem('seance-progress');
+    const stored = localStorage.getItem("seance-progress");
     return stored ? JSON.parse(stored) : { completedPaths: {} };
   } catch {
     return { completedPaths: {} };
@@ -25,21 +25,21 @@ export const getProgress = (): UserProgress => {
 };
 
 export const saveProgress = (country: string, path: string, score: number) => {
-  if (typeof window === 'undefined') return;
-  
+  if (typeof window === "undefined") return;
+
   const progress = getProgress();
-  
+
   if (!progress.completedPaths[country]) {
     progress.completedPaths[country] = {};
   }
-  
+
   progress.completedPaths[country][path] = {
     completed: true,
     score,
-    completedAt: new Date().toISOString()
+    completedAt: new Date().toISOString(),
   };
-  
-  localStorage.setItem('seance-progress', JSON.stringify(progress));
+
+  localStorage.setItem("seance-progress", JSON.stringify(progress));
 };
 
 export const isPathCompleted = (country: string, path: string): boolean => {

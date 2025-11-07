@@ -22,7 +22,12 @@ export const merchantsLedger: Record<string, Question[]> = {
     {
       question:
         "What term describes the abandoned settlements, 'ghost towns', left behind after 19th-century mining booms, like the Gold Rush, went bust?",
-      options: ["Boomtowns", "Bust towns", "Hellorados", "Spectral Settlements"],
+      options: [
+        "Boomtowns",
+        "Bust towns",
+        "Hellorados",
+        "Spectral Settlements",
+      ],
       correctAnswer: 1,
       explanation:
         "They were 'boomtowns' when active, but 'ghost towns' after the resources dried up, leaving behind eerie shells of economic hope.",
@@ -43,7 +48,12 @@ export const merchantsLedger: Record<string, Question[]> = {
     {
       question:
         "What grim nickname was given to the 1930s ecological and economic disaster that forced mass migration from the Great Plains, creating 'ghosts' of fertile farms?",
-      options: ["The Great Blight", "The Dust Bowl", "The Black Blizzard", "Hoover's Curse"],
+      options: [
+        "The Great Blight",
+        "The Dust Bowl",
+        "The Black Blizzard",
+        "Hoover's Curse",
+      ],
       correctAnswer: 1,
       explanation:
         "The Dust Bowl was a period of severe dust storms that greatly damaged the ecology and agriculture, displacing hundreds of thousands of people.",
@@ -90,7 +100,12 @@ export const merchantsLedger: Record<string, Question[]> = {
     {
       question:
         "The 'spectral' nature of modern U.S. currency, not backed by any physical commodity, is known as what?",
-      options: ["Gold Standard", "Silver Standard", "Fiat Money", "Crypto Currency"],
+      options: [
+        "Gold Standard",
+        "Silver Standard",
+        "Fiat Money",
+        "Crypto Currency",
+      ],
       correctAnswer: 2,
       explanation:
         "Fiat money has no intrinsic value; its value is 'phantom,' derived entirely from government decree and public trust, ever since the U.S. fully abandoned the gold standard in 1971.",
@@ -196,7 +211,12 @@ export const merchantsLedger: Record<string, Question[]> = {
     {
       question:
         "The 'curse' of the sugar plantations in colonial Brazil was so profound that it led to the importation of over 4 million of what 'human commodity'?",
-      options: ["Indigenous laborers", "European indentured servants", "Enslaved Africans", "Cattle"],
+      options: [
+        "Indigenous laborers",
+        "European indentured servants",
+        "Enslaved Africans",
+        "Cattle",
+      ],
       correctAnswer: 2,
       explanation:
         "Brazil was the largest single destination for the transatlantic slave trade. The sugar economy was 'blooded' by and built entirely upon enslaved African labor.",
@@ -261,7 +281,12 @@ export const merchantsLedger: Record<string, Question[]> = {
     {
       question:
         "The 'Luddites' were 19th-century textile workers who smashed what 'monstrous' new technology, fearing it would create a 'graveyard' for their jobs?",
-      options: ["Steam engines", "Mechanical looms and stocking frames", "Cotton gins", "Railroads"],
+      options: [
+        "Steam engines",
+        "Mechanical looms and stocking frames",
+        "Cotton gins",
+        "Railroads",
+      ],
       correctAnswer: 1,
       explanation:
         "The Luddites weren't just anti-technology; they were protesting the 'vampiric' use of machines in a 'fraudulent and deceitful manner' to get around labor practices and de-skill workers.",
@@ -297,7 +322,12 @@ export const merchantsLedger: Record<string, Question[]> = {
     {
       question:
         "What 'bloody' and deeply unpopular tax on a vital preservative, a state monopoly, was a major grievance that 'haunted' the monarchy before the French Revolution?",
-      options: ["The 'Taille' (Land Tax)", "The 'Gabelle' (Salt Tax)", "The 'Corvée' (Labor Tax)", "The 'Vingtième' (Income Tax)"],
+      options: [
+        "The 'Taille' (Land Tax)",
+        "The 'Gabelle' (Salt Tax)",
+        "The 'Corvée' (Labor Tax)",
+        "The 'Vingtième' (Income Tax)",
+      ],
       correctAnswer: 1,
       explanation:
         "The 'Gabelle' was hated. The price of salt was artificially high and varied by region, forcing people to buy from the state. Salt smugglers could be 'broken on the wheel.'",
@@ -346,7 +376,12 @@ export const merchantsLedger: Record<string, Question[]> = {
     {
       question:
         "What 'economic nightmare' of the Weimar Republic in 1923 saw citizens using wheelbarrows of 'phantom' money, made worthless by the minute, to buy bread?",
-      options: ["Hyperinflation", "Stagflation", "The Great Depression", "The Bank Run"],
+      options: [
+        "Hyperinflation",
+        "Stagflation",
+        "The Great Depression",
+        "The Bank Run",
+      ],
       correctAnswer: 0,
       explanation:
         "The 1923 hyperinflation is the stuff of economic horror stories. The currency became so worthless that it was cheaper to burn as fuel than to use to buy fuel.",
@@ -403,7 +438,12 @@ export const merchantsLedger: Record<string, Question[]> = {
     {
       question:
         "The 'ghosts' of what brutal Soviet forced-labor camp system formed a massive, 'bloody' economic empire under Stalin?",
-      options: ["The Gulag", "The Kremlin", "The KGB", "The Kolkhoz (Collective Farms)"],
+      options: [
+        "The Gulag",
+        "The Kremlin",
+        "The KGB",
+        "The Kolkhoz (Collective Farms)",
+      ],
       correctAnswer: 0,
       explanation:
         "The Gulag system was not just for political prisoners; it was a vast, 'vampiric' economic enterprise that built canals, mined gold, and logged Siberia, all with the blood and starvation of its inmates.",
@@ -465,7 +505,12 @@ export const merchantsLedger: Record<string, Question[]> = {
     {
       question:
         "What 'shadowy' financial system in China operates outside of official state banking, creating 'phantom' risks of a debt crisis?",
-      options: ["'Guanxi' Networks", "Shadow Banking", "The Silk Road Fund", "The Black Market"],
+      options: [
+        "'Guanxi' Networks",
+        "Shadow Banking",
+        "The Silk Road Fund",
+        "The Black Market",
+      ],
       correctAnswer: 1,
       explanation:
         "China's 'shadow banking' system consists of trusts, wealth management products, and underground lenders, holding trillions in 'spooky' off-balance-sheet debt.",
@@ -509,7 +554,12 @@ export const merchantsLedger: Record<string, Question[]> = {
     {
       question:
         "The 'ghost' of what bureaucratic system, which 'haunted' the Indian economy from 1947 to 1991, required complex licenses for a company to do almost anything?",
-      options: ["The 'License Raj'", "The 'Permit Curse'", "The 'Red Tape Nightmare'", "The 'Babudom'"],
+      options: [
+        "The 'License Raj'",
+        "The 'Permit Curse'",
+        "The 'Red Tape Nightmare'",
+        "The 'Babudom'",
+      ],
       correctAnswer: 0,
       explanation:
         "The 'License Raj' was a 'spectral' web of bureaucracy that 'strangled' economic growth, creating massive corruption and inefficiency until the 1991 reforms 'exorcised' it.",
@@ -530,7 +580,12 @@ export const merchantsLedger: Record<string, Question[]> = {
     {
       question:
         "What is the 'curse' of 'black money' in India, a 'phantom' economy that operates in cash to evade what?",
-      options: ["Taxes", "Religious law", "Foreign exchange", "The caste system"],
+      options: [
+        "Taxes",
+        "Religious law",
+        "Foreign exchange",
+        "The caste system",
+      ],
       correctAnswer: 0,
       explanation:
         "This 'shadow' economy, worth hundreds of billions, is a 'curse' on development. The 2016 'demonetization' was a 'shock therapy' attempt to 'exorcise' these 'phantom' assets.",
@@ -540,7 +595,12 @@ export const merchantsLedger: Record<string, Question[]> = {
     {
       question:
         "Like the U.S., Australia is home to 'ghost towns' left from what 19th-century 'madness' that began in places like Ballarat and Bendigo?",
-      options: ["The Gold Rushes", "The Opal Rushes", "The Uranium Boom", "The Emu War"],
+      options: [
+        "The Gold Rushes",
+        "The Opal Rushes",
+        "The Uranium Boom",
+        "The Emu War",
+      ],
       correctAnswer: 0,
       explanation:
         "The Victorian gold rush of the 1850s was one of the largest in history, creating 'boomtowns' that died just as quickly, leaving 'ghosts' behind in the bush.",
@@ -579,7 +639,12 @@ export const merchantsLedger: Record<string, Question[]> = {
     {
       question:
         "What 'spectral' name is given to Japanese companies that are only kept alive by 'vampiric' bank loans, 'haunting' the economy since the 'Lost Decade' of the 1990s?",
-      options: ["'Zaibatsu'", "'Keiretsu'", "'Zombie Companies'", "'Salarymen'"],
+      options: [
+        "'Zaibatsu'",
+        "'Keiretsu'",
+        "'Zombie Companies'",
+        "'Salarymen'",
+      ],
       correctAnswer: 2,
       explanation:
         "'Zombie companies' are firms that are unprofitable and deep in debt but are kept 'undead' by banks, 'sucking the blood' from the economy and preventing growth.",
@@ -587,7 +652,12 @@ export const merchantsLedger: Record<string, Question[]> = {
     {
       question:
         "What 'ghastly' Japanese term means 'death from overwork,' a 'curse' of its post-war economic 'miracle'?",
-      options: ["'Karoshi'", "'Harakiri'", "'Arigato'", "'Kodokushi' (Lonely Death)"],
+      options: [
+        "'Karoshi'",
+        "'Harakiri'",
+        "'Arigato'",
+        "'Kodokushi' (Lonely Death)",
+      ],
       correctAnswer: 0,
       explanation:
         "'Karoshi' is a recognized social and economic phenomenon where extreme working hours lead to fatal strokes, heart attacks, or suicide.",
@@ -631,7 +701,12 @@ export const merchantsLedger: Record<string, Question[]> = {
     {
       question:
         "Control of what 'phantom' asset, a 'golden' shortcut for global trade, was 'vampirically' seized from Egypt by Britain in 1882, despite being built on Egyptian land?",
-      options: ["The Nile River", "The Suez Canal", "The Port of Alexandria", "The Aswan Dam"],
+      options: [
+        "The Nile River",
+        "The Suez Canal",
+        "The Port of Alexandria",
+        "The Aswan Dam",
+      ],
       correctAnswer: 1,
       explanation:
         "The Suez Canal. Egypt's leader, Isma'il Pasha, went bankrupt, 'bleeding' shares to Britain. The subsequent British 'protection' was a 'vampiric' occupation that lasted decades.",
@@ -662,7 +737,12 @@ export const merchantsLedger: Record<string, Question[]> = {
     {
       question:
         "What 'cursed' gemstones, mined in war-torn zones and sold to fund conflicts, 'haunted' South Africa's neighbors and stained the global diamond trade?",
-      options: ["'Blood Diamonds' (Conflict Diamonds)", "'Apartheid Gems'", "'Cursed Ice'", "'Randlord Rocks'"],
+      options: [
+        "'Blood Diamonds' (Conflict Diamonds)",
+        "'Apartheid Gems'",
+        "'Cursed Ice'",
+        "'Randlord Rocks'",
+      ],
       correctAnswer: 0,
       explanation:
         "South Africa, as a diamond hub, was central to the 'blood diamond' trade from Angola and Sierra Leone. The Kimberley Process was created to 'exorcise' these 'bloody' stones from the market.",
@@ -678,7 +758,12 @@ export const merchantsLedger: Record<string, Question[]> = {
     {
       question:
         "What 'ghastly' nickname was given to the powerful, often ruthless European magnates who 'vampirically' controlled the 19th-century gold and diamond mines?",
-      options: ["The 'Boers'", "The 'Randlords'", "The 'Afrikaners'", "The 'Mine Barons'"],
+      options: [
+        "The 'Boers'",
+        "The 'Randlords'",
+        "The 'Afrikaners'",
+        "The 'Mine Barons'",
+      ],
       correctAnswer: 1,
       explanation:
         "The 'Randlords' (from the Witwatersrand gold reef) were men like Cecil Rhodes and Barney Barnato who made 'blood' fortunes from the deep-level mines, built on a 'spectral' system of migrant labor.",
@@ -722,7 +807,12 @@ export const merchantsLedger: Record<string, Question[]> = {
     {
       question:
         "What 'curse' of a single commodity has 'haunted' the Mexican economy, with the 'ghostly' decline of the giant Cantarell oil field causing a national crisis?",
-      options: ["The 'Corn Curse'", "The 'Silver Curse'", "The 'Oil Curse' (Dutch Disease)", "The 'Tequila Curse'"],
+      options: [
+        "The 'Corn Curse'",
+        "The 'Silver Curse'",
+        "The 'Oil Curse' (Dutch Disease)",
+        "The 'Tequila Curse'",
+      ],
       correctAnswer: 2,
       explanation:
         "Mexico became 'cursed' by its dependence on oil from the Cantarell 'monster' field. Its 'ghostly' and rapid decline since 2004 has put immense, 'spooky' pressure on state finances.",
@@ -745,7 +835,12 @@ export const merchantsLedger: Record<string, Question[]> = {
     {
       question:
         "Argentina suffers from a 're-animating' economic 'horror' that it can't seem to 'slay,' making its currency a 'phantom' and savings 'turn to dust.' What is it?",
-      options: ["Deflation", "Chronic Hyperinflation", "Stagflation", "The Gold Standard"],
+      options: [
+        "Deflation",
+        "Chronic Hyperinflation",
+        "Stagflation",
+        "The Gold Standard",
+      ],
       correctAnswer: 1,
       explanation:
         "Argentina is 'cursed' with a cycle of hyperinflation. It's a 'zombie' problem that 'devours' governments and the life savings of its citizens, a true economic 'horror story.'",
@@ -753,7 +848,12 @@ export const merchantsLedger: Record<string, Question[]> = {
     {
       question:
         "What 'ghastly' name is given to the 'phantom' investors who buy a country's 'dead' (defaulted) debt for pennies and then 'vampirically' sue for the full amount?",
-      options: ["'Vulture Funds'", "'Zombie Banks'", "'Shadow Lenders'", "'Grave Robbers'"],
+      options: [
+        "'Vulture Funds'",
+        "'Zombie Banks'",
+        "'Shadow Lenders'",
+        "'Grave Robbers'",
+      ],
       correctAnswer: 0,
       explanation:
         "'Vulture funds' are a 'horror' for defaulted nations. They 'haunted' Argentina for years, blocking it from global finance until they were paid billions for 'dead' bonds.",
@@ -761,7 +861,12 @@ export const merchantsLedger: Record<string, Question[]> = {
     {
       question:
         "The 'ghosts' of what 'bloody' period (1976-1983) 'haunt' Argentina, when 30,000 people were 'disappeared' by a military junta, often for economic or union-related reasons?",
-      options: ["The 'Tango Wars'", "The 'Falklands War'", "The 'Dirty War'", "The 'Peronist Plague'"],
+      options: [
+        "The 'Tango Wars'",
+        "The 'Falklands War'",
+        "The 'Dirty War'",
+        "The 'Peronist Plague'",
+      ],
       correctAnswer: 2,
       explanation:
         "The 'Dirty War' was political, but also 'vampirically' economic. The junta 'disappeared' thousands of union organizers and leftists to 'exorcise' 'subversion' from the factories.",
@@ -792,7 +897,12 @@ export const merchantsLedger: Record<string, Question[]> = {
     {
       question:
         "What 'phantom' fraud, named after a section of the Nigerian criminal code, promises 'spectral' fortunes from a 'cursed' prince in your inbox?",
-      options: ["The 'Lagos Lottery'", "The 'Biafran Curse'", "The '419 Scam' (Advance-fee fraud)", "The 'Juju Money'"],
+      options: [
+        "The 'Lagos Lottery'",
+        "The 'Biafran Curse'",
+        "The '419 Scam' (Advance-fee fraud)",
+        "The 'Juju Money'",
+      ],
       correctAnswer: 2,
       explanation:
         "The '419 scam' is a 'phantom' economy in itself, where tricksters promise a 'ghost' of a fortune in exchange for a small 'blood' offering (an advance fee).",
@@ -836,7 +946,12 @@ export const merchantsLedger: Record<string, Question[]> = {
     {
       question:
         "What 'vampiric' system 'binds' millions of expatriate workers to their employers, creating a 'shadow' workforce with few rights?",
-      options: ["The 'Jizya' system", "The 'Kafala' (sponsorship) system", "The 'Iqta' system", "The 'Wasta' system"],
+      options: [
+        "The 'Jizya' system",
+        "The 'Kafala' (sponsorship) system",
+        "The 'Iqta' system",
+        "The 'Wasta' system",
+      ],
       correctAnswer: 1,
       explanation:
         "The 'Kafala' system is a 'curse' for many low-wage workers. It 'vampirically' ties a worker's legal status to their sponsor (kafeel), creating 'ghosts' in the system who can't leave or change jobs.",
@@ -947,7 +1062,12 @@ export const merchantsLedger: Record<string, Question[]> = {
     {
       question:
         "The 'curse' of what 'bloody' trade 'haunts' Kenya's economy, where 'vampiric' poachers 'slaughter' wildlife for 'phantom' medicinal beliefs in Asia?",
-      options: ["The 'Ivory Trade'", "The 'Coffee Trade'", "The 'Tea Trade'", "The 'Flower Trade'"],
+      options: [
+        "The 'Ivory Trade'",
+        "The 'Coffee Trade'",
+        "The 'Tea Trade'",
+        "The 'Flower Trade'",
+      ],
       correctAnswer: 0,
       explanation:
         "The 'bloody' ivory and rhino horn trade is a 'shadow' economy. It 'curses' Kenya's greatest natural asset (its wildlife) and 'bleeds' its future tourism potential.",

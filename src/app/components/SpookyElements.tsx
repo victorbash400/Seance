@@ -10,7 +10,12 @@ interface FloatingPumpkinProps {
   duration: number;
 }
 
-const FloatingPumpkin = ({ size, startX, delay, duration }: FloatingPumpkinProps) => (
+const FloatingPumpkin = ({
+  size,
+  startX,
+  delay,
+  duration,
+}: FloatingPumpkinProps) => (
   <div
     className="absolute pointer-events-none"
     style={{

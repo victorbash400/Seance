@@ -33,13 +33,13 @@ function MageContent() {
       <SmokeBackground />
 
       {/* Pumpkin Pile Background */}
-      <div 
+      <div
         className="absolute inset-0 z-5 opacity-40"
         style={{
-          backgroundImage: 'url(/assets/spooky/pumpkin_pile.png)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center bottom',
-          backgroundRepeat: 'no-repeat'
+          backgroundImage: "url(/assets/spooky/pumpkin_pile.png)",
+          backgroundSize: "cover",
+          backgroundPosition: "center bottom",
+          backgroundRepeat: "no-repeat",
         }}
       />
 
@@ -49,9 +49,11 @@ function MageContent() {
       {/* Back button */}
       <button
         onClick={() => {
-          const clickSound = new Audio('/sound/click.mp3');
+          const clickSound = new Audio("/sound/click.mp3");
           clickSound.volume = 0.5;
-          clickSound.play().catch(err => console.log('Click sound failed:', err));
+          clickSound
+            .play()
+            .catch((err) => console.log("Click sound failed:", err));
           router.push("/");
         }}
         className="absolute top-6 left-6 z-50 px-4 py-2 rounded-md bg-gradient-to-r from-red-700 to-black border border-red-800 text-red-200 font-serif hover:scale-105 transition-all duration-300 hover:shadow-[0_0_25px_rgba(255,0,0,0.7)]"
@@ -77,16 +79,25 @@ function MageContent() {
           <p className="text-lg text-gray-300 italic font-serif mb-8">
             Keeper of {country}'s Darkened Legends
           </p>
-          
+
           <div className="bg-gradient-to-br from-black/60 via-zinc-900/50 to-black/60 px-12 py-8 rounded-lg border border-orange-700/20 shadow-[0_0_20px_rgba(255,165,0,0.3)] backdrop-blur-md max-w-4xl mx-auto">
             <p className="text-lg text-gray-200 font-serif text-center leading-relaxed">
-              "Ah... another mortal seeking truth from the ashes of time,<br/>
-              Where shadows dance and ancient secrets chime.<br/>
-              Dare you pry into <span className="text-orange-400 font-bold">{country}</span>'s haunted past,<br/>
-              Where echoes of the dead forever last?<br/>
-              Three paths before you now unfold,<br/>
-              Each holding tales both dark and old.<br/>
-              Choose your journey... if you dare,<br/>
+              "Ah... another mortal seeking truth from the ashes of time,
+              <br />
+              Where shadows dance and ancient secrets chime.
+              <br />
+              Dare you pry into{" "}
+              <span className="text-orange-400 font-bold">{country}</span>'s
+              haunted past,
+              <br />
+              Where echoes of the dead forever last?
+              <br />
+              Three paths before you now unfold,
+              <br />
+              Each holding tales both dark and old.
+              <br />
+              Choose your journey... if you dare,
+              <br />
               But know that spirits linger there."
             </p>
           </div>
@@ -103,10 +114,14 @@ function MageContent() {
                   boxShadow: `0 0 15px ${path.glowColor}`,
                 }}
                 onClick={() => {
-                  const clickSound = new Audio('/sound/click.mp3');
+                  const clickSound = new Audio("/sound/click.mp3");
                   clickSound.volume = 0.5;
-                  clickSound.play().catch(err => console.log('Click sound failed:', err));
-                  router.push(`/book?country=${encodeURIComponent(country)}&path=${encodeURIComponent(path.title)}`);
+                  clickSound
+                    .play()
+                    .catch((err) => console.log("Click sound failed:", err));
+                  router.push(
+                    `/book?country=${encodeURIComponent(country)}&path=${encodeURIComponent(path.title)}`,
+                  );
                 }}
               >
                 <span className="text-orange-300 font-serif font-medium text-lg">
@@ -115,7 +130,7 @@ function MageContent() {
               </button>
             ))}
           </div>
-          
+
           <p className="text-sm text-gray-400 font-serif italic">
             "The hour grows late... choose before the veil closes."
           </p>
