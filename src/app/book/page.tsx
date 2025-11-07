@@ -3,7 +3,7 @@
 import { useSearchParams, useRouter } from "next/navigation";
 import { Suspense } from "react";
 import QuestionBook from "./components/QuestionBook";
-import { bookData } from "./data";
+import { bookData } from "./data/index";
 
 function BookContent() {
   const searchParams = useSearchParams();

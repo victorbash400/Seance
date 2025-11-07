@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useCallback } from "react";
+import Image from "next/image";
 import { FlipBook, Page, FlipBookRef } from "../../components/FlipBook";
 import { Question } from "../types";
 import { saveProgress } from "../../lib/progressTracker";
@@ -377,10 +378,25 @@ export default function QuestionBook({ country, path, questions, onComplete }: Q
 
       {/* Completion Page */}
       <Page data-density="hard">
-        <div className="flex flex-col items-center justify-center h-full text-center">
+        <div className="flex flex-col items-center justify-center h-full text-center px-8">
           <h2 className="text-2xl font-bold text-amber-800 mb-4 paint-font">
             Journey Complete!
           </h2>
+          
+          {/* Show happy monster for perfect score */}
+          {score === questions.length && (
+            <div className="mb-4">
+              <Image
+                src="/gif/happy-monster.gif"
+                alt="Celebrating Monster"
+                width={200}
+                height={200}
+                className="object-contain"
+                unoptimized
+              />
+            </div>
+          )}
+          
           <p className="text-amber-700 mb-4">
             You have learned about {country}'s {path.toLowerCase()}.
           </p>
