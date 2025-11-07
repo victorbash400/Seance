@@ -4,19 +4,7 @@
   "description": "Automatically updates README files when source code, configuration, or package files are modified to keep documentation in sync with code changes",
   "version": "1",
   "when": {
-    "type": "fileEdited",
-    "patterns": [
-      "seance/src/**/*.tsx",
-      "seance/src/**/*.ts",
-      "seance/package.json",
-      "seance/next.config.ts",
-      "seance/tsconfig.json",
-      "react-pageflip/src/**/*.tsx",
-      "react-pageflip/src/**/*.ts",
-      "react-pageflip/package.json",
-      "react-pageflip/rollup.config.js",
-      "react-pageflip/tsconfig.json"
-    ]
+    "type": "userTriggered"
   },
   "then": {
     "type": "askAgent",
