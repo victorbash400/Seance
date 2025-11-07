@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import Image from "next/image";
 import { FlipBook, Page, FlipBookRef } from "../../components/FlipBook";
 import { Question } from "../types";
 import { saveProgress } from "../../lib/progressTracker";
+import { audioManager } from "../../lib/audioManager";
 
 interface QuestionBookProps {
   country: string;
@@ -37,6 +38,12 @@ export default function QuestionBook({
   const [score, setScore] = useState(0);
   const [showLockedPopup, setShowLockedPopup] = useState(false);
   const [showResetMessage, setShowResetMessage] = useState(false);
+
+  // Preload audio files on mount
+  useEffect(() => {
+    audioManager.preload('/sound/pageflip.mp3', 0.5);
+    audioManager.preload('/sound/click.mp3', 0.5);
+  }, []);
 
   const handleAnswerSelect = useCallback(
     (questionIndex: number, answerIndex: number) => {
@@ -165,9 +172,7 @@ export default function QuestionBook({
       }
 
       // Play page flip sound
-      const audio = new Audio("/sound/pageflip.mp3");
-      audio.volume = 0.5;
-      audio.play().catch((err) => console.log("Audio play failed:", err));
+      audioManager.play('/sound/pageflip.mp3', 0.5).catch(() => {});
 
       // Allow the page turn
       setCurrentPage(newPage);
@@ -234,11 +239,8 @@ export default function QuestionBook({
       {/* Return to Realm button */}
       <button
         onClick={() => {
-          const clickSound = new Audio("/sound/click.mp3");
-          clickSound.volume = 0.5;
-          clickSound
-            .play()
-            .catch((err) => console.log("Click sound failed:", err));
+          // Play click sound
+          audioManager.play('/sound/click.mp3', 0.5).catch(() => {});
           window.location.href = "/";
         }}
         className="absolute top-6 left-6 z-50 px-4 py-2 rounded-md bg-gradient-to-r from-red-700 to-black border border-red-800 text-red-200 font-serif hover:scale-105 transition-all duration-300 hover:shadow-[0_0_25px_rgba(255,0,0,0.7)] paint-font"

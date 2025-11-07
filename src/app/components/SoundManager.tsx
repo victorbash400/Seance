@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { audioManager } from "../lib/audioManager";
 
 interface SoundManagerProps {
   enablePageFlip?: boolean;
@@ -9,16 +10,17 @@ interface SoundManagerProps {
 export default function SoundManager({
   enablePageFlip = false,
 }: SoundManagerProps) {
-  const [isMuted, setIsMuted] = useState(false);
-  const [volume, setVolume] = useState(50);
+  const [isMuted, setIsMuted] = useState(true); // Start muted
+  const [volume, setVolume] = useState(0); // Start at 0 volume
   const [showVolumeSlider, setShowVolumeSlider] = useState(false);
   const backgroundMusicRef = useRef<HTMLAudioElement | null>(null);
   const owlTimerRef = useRef<NodeJS.Timeout | null>(null);
   const wolfTimerRef = useRef<NodeJS.Timeout | null>(null);
   const heartbeatTimerRef = useRef<NodeJS.Timeout | null>(null);
   const ambientVolumeRef = useRef(0.4);
-  const isMutedRef = useRef(false);
-  const volumeRef = useRef(50);
+  const isMutedRef = useRef(true); // Start muted
+  const volumeRef = useRef(0); // Start at 0
+  const audioUnlockedRef = useRef(false);
 
   // Keep refs in sync with state
   useEffect(() => {
@@ -36,10 +38,23 @@ export default function SoundManager({
     bgMusic.volume = 0.3;
     backgroundMusicRef.current = bgMusic;
 
-    // Start playing background music
-    bgMusic
-      .play()
-      .catch((err) => console.log("Background music autoplay blocked:", err));
+    // Unlock audio on first user interaction
+    const unlockAudio = () => {
+      if (!audioUnlockedRef.current) {
+        audioUnlockedRef.current = true;
+        bgMusic.play().catch((err) => console.log("Background music failed:", err));
+        
+        // Remove listeners after first unlock
+        document.removeEventListener('click', unlockAudio);
+        document.removeEventListener('touchstart', unlockAudio);
+        document.removeEventListener('keydown', unlockAudio);
+      }
+    };
+
+    // Listen for any user interaction to unlock audio
+    document.addEventListener('click', unlockAudio);
+    document.addEventListener('touchstart', unlockAudio);
+    document.addEventListener('keydown', unlockAudio);
 
     // Schedule random owl hoots (every 15-30 seconds)
     const scheduleOwl = () => {
@@ -67,13 +82,13 @@ export default function SoundManager({
       }, delay);
     };
 
-    // Schedule random heartbeats (every 30-50 seconds - less frequent)
+    // Schedule random heartbeats (every 30-50 seconds)
     const scheduleHeartbeat = () => {
       const delay = Math.random() * 20000 + 30000; // 30-50 seconds
       heartbeatTimerRef.current = setTimeout(() => {
         if (!isMutedRef.current && volumeRef.current > 0) {
           const heartbeat = new Audio("/sound/heartbeat.mp3");
-          heartbeat.volume = ambientVolumeRef.current * 0.7; // Slightly quieter
+          heartbeat.volume = ambientVolumeRef.current; // Same volume as other ambient sounds
           heartbeat
             .play()
             .catch((err) => console.log("Heartbeat sound failed:", err));
@@ -92,6 +107,11 @@ export default function SoundManager({
       if (owlTimerRef.current) clearTimeout(owlTimerRef.current);
       if (wolfTimerRef.current) clearTimeout(wolfTimerRef.current);
       if (heartbeatTimerRef.current) clearTimeout(heartbeatTimerRef.current);
+      
+      // Remove event listeners
+      document.removeEventListener('click', unlockAudio);
+      document.removeEventListener('touchstart', unlockAudio);
+      document.removeEventListener('keydown', unlockAudio);
     };
   }, []);
 
@@ -117,7 +137,13 @@ export default function SoundManager({
   }, [volume]);
 
   const toggleMute = () => {
-    setIsMuted(!isMuted);
+    const newMutedState = !isMuted;
+    setIsMuted(newMutedState);
+    
+    // When unmuting, ensure audio is unlocked globally for the entire app
+    if (!newMutedState && !audioManager.isUnlocked()) {
+      audioManager.unlock();
+    }
   };
 
   const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -127,6 +153,10 @@ export default function SoundManager({
       setIsMuted(true);
     } else if (isMuted) {
       setIsMuted(false);
+      // Unlock audio when user increases volume from 0
+      if (!audioManager.isUnlocked()) {
+        audioManager.unlock();
+      }
     }
   };
 
