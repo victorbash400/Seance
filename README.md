@@ -5,11 +5,12 @@ A mystical Next.js web application featuring immersive 3D effects and interactiv
 ## Features
 
 - **Interactive World Map**: Click on countries to explore their dark folklore using react-simple-maps
-- **3D Smoke Effects**: Atmospheric background effects powered by react-smoke and Three.js
-- **Page-Flipping Books**: Realistic book interface using react-pageflip for immersive storytelling
+- **3D Smoke Effects**: Atmospheric background effects powered by react-smoke and Three.js with configurable turbulence, wind, and particle density
+- **Page-Flipping Books**: Realistic book interface using react-pageflip for immersive storytelling with audio feedback
+- **Audio Feedback**: Page flip sound effects enhance the immersive reading experience
 - **Educational Quiz System**: Learn about different countries' history through interactive questions with smart page progression
 - **Progress Tracking**: Save your progress as you complete different story paths
-- **Responsive Design**: Optimized for both desktop and mobile experiences
+- **Responsive Design**: Optimized for both desktop and mobile experiences with graceful WebGL fallbacks
 - **Smart Page Navigation**: Questions are distributed across book spreads with intuitive left/right page layout
 
 ## Technology Stack
@@ -44,13 +45,13 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 ```
 src/app/
 ├── components/          # Reusable React components
-│   ├── SmokeBackground.tsx    # 3D smoke effects
+│   ├── SmokeBackground.tsx    # 3D smoke effects with WebGL detection and CSS fallback
 │   ├── WorldMap.tsx           # Interactive world map
 │   ├── FlipBook.tsx           # Enhanced page-flipping book wrapper
 │   └── SpookyBook.tsx         # Themed book interface
 ├── book/               # Book reading experience
 │   ├── components/
-│   │   └── QuestionBook.tsx   # Interactive quiz book with smart pagination
+│   │   └── QuestionBook.tsx   # Interactive quiz book with smart pagination and audio
 │   ├── data.ts                # Quiz questions and answers by country/path
 │   ├── types.ts               # TypeScript interfaces for quiz system
 │   └── page.tsx               # Book route handler
@@ -58,6 +59,10 @@ src/app/
 ├── lib/                # Utility functions
 │   └── progressTracker.ts     # Progress persistence and retrieval
 └── page.tsx            # Home page with world map
+
+public/
+└── sound/              # Audio assets
+    └── pageflip.mp3    # Page turning sound effect
 ```
 
 ## Book Configuration
@@ -67,20 +72,24 @@ The FlipBook component is a custom wrapper around react-pageflip with the follow
 ### Component Configuration
 - **Dimensions**: Fixed 640px × 480px for consistent experience
 - **Animation**: 600ms flip timing with realistic shadows
-- **Interaction**: Touch and mouse support with 30px swipe distance
+- **Interaction**: Touch, mouse, and click support with 30px swipe distance for gestures
+- **Click-to-Flip**: Pages can be flipped by clicking on page corners
 - **Accessibility**: Keyboard navigation and screen reader support
 
 ### Enhanced Features
 - **Imperative API**: Exposed methods for programmatic page control (`flipNext`, `turnToPage`)
 - **Custom Page Component**: Pre-styled pages with parchment-like appearance
 - **Event Handling**: Comprehensive flip event system for quiz progression
+- **Audio Feedback**: Page flip sound effects triggered on page turns (volume: 0.5, graceful failure handling)
 - **Mobile Optimization**: Touch-friendly interactions with swipe gestures
+- **Multiple Interaction Methods**: Supports clicking page corners, swiping, and programmatic navigation
 
 ### Smart Page Progression
 - Pages unlock based on correct quiz answers
 - Left/right page layout with contextual navigation prompts
 - Progress-based access control to maintain educational flow
 - Visual indicators for page accessibility status
+- Audio feedback on successful page turns for enhanced user experience
 
 ## Available Scripts
 
@@ -91,6 +100,14 @@ pnpm start        # Start production server
 pnpm lint         # Run Biome linter
 pnpm format       # Format code with Biome
 ```
+
+## Recent Updates
+
+### Smoke Effects Enhancement
+- **Updated react-smoke Integration**: Fixed import issues and updated to use the correct `SmokeScene` component API
+- **Enhanced Configuration**: Implemented comprehensive smoke configuration with turbulence, wind effects, and particle density controls
+- **Improved Fallback**: Enhanced CSS-based fallback smoke effects for non-WebGL environments
+- **Performance Optimization**: Configured optimal particle density and animation parameters for smooth performance across devices
 
 ## Quiz System
 
@@ -144,7 +161,22 @@ const goToPage = (pageNumber: number) => {
 
 ## WebGL Requirements
 
-This application uses WebGL for 3D smoke effects. If WebGL is not supported, the app gracefully falls back to CSS gradient backgrounds while maintaining full functionality.
+This application uses WebGL for 3D smoke effects powered by react-smoke. The smoke effects feature:
+
+- **Turbulence Effects**: Configurable turbulence strength for realistic smoke movement
+- **Wind Simulation**: Multi-directional wind effects with customizable strength and direction
+- **Particle Density**: Adjustable particle count (default: 80 particles) for performance optimization
+- **Rotation Effects**: Subtle rotation animations for enhanced realism
+- **Graceful Fallback**: If WebGL is not supported, the app automatically falls back to CSS gradient-based smoke effects while maintaining full functionality
+
+### Smoke Configuration
+
+The smoke effects are configured with the following parameters:
+- Turbulence: Enabled with strength [0.08, 0.08, 0.08] for natural movement
+- Wind: Multi-directional wind with strength [0.06, 0.04, 0.02] and direction [1, 0.5, 0]
+- Density: 80 particles for optimal performance/quality balance
+- Opacity: 0.6 for atmospheric effect without overwhelming content
+- Rotation: Subtle [0, 0, 0.02] rotation for enhanced realism
 
 ## Learn More
 

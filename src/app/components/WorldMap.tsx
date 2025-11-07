@@ -2,6 +2,7 @@
 
 import * as RSM from "react-simple-maps";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import SmokeBackground from "./SmokeBackground";
 import SpookyElements from "./SpookyElements";
 
@@ -39,6 +40,12 @@ export default function WorldMap() {
 
   const handleCountryClick = (countryName: string, iso: string) => {
     console.log(`Clicked on ${countryName} (${iso})`); // Debug log
+    
+    // Play click sound
+    const clickSound = new Audio('/sound/click.mp3');
+    clickSound.volume = 0.5;
+    clickSound.play().catch(err => console.log('Click sound failed:', err));
+    
     // Navigate to the mage page with country info
     router.push(`/mage?country=${encodeURIComponent(countryName)}&iso=${iso}`);
   };
@@ -63,6 +70,30 @@ export default function WorldMap() {
           rgba(0,0,0,0.8) 70%, 
           rgba(0,0,0,0.95) 100%)`
       }} />
+
+      {/* Home Moon - Top Left */}
+      <div className="absolute top-8 left-8 z-28">
+        <Image
+          src="/assets/spooky/home-moon.png"
+          alt="Spooky Moon"
+          width={220}
+          height={220}
+          className="object-contain"
+          priority
+        />
+      </div>
+
+      {/* Bats over Moon - Top Left */}
+      <div className="absolute top-8 left-8 z-29">
+        <Image
+          src="/assets/spooky/bats.png"
+          alt="Bats"
+          width={220}
+          height={220}
+          className="object-contain"
+          priority
+        />
+      </div>
 
       {/* Top Bar for Text */}
       <div className="absolute top-0 left-0 w-full h-20 bg-gradient-to-b from-black/80 to-transparent z-40 flex items-center justify-center">

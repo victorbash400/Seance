@@ -119,7 +119,7 @@ const FlipBook = forwardRef<FlipBookRef, FlipBookProps>(({ children, onFlip, onC
         swipeDistance={30}
         renderOnlyPageLengthChange={false}
         showPageCorners={true}
-        disableFlipByClick={true}
+        disableFlipByClick={false}
       >
         {children}
       </HTMLFlipBook>

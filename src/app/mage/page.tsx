@@ -48,7 +48,12 @@ function MageContent() {
 
       {/* Back button */}
       <button
-        onClick={() => router.push("/")}
+        onClick={() => {
+          const clickSound = new Audio('/sound/click.mp3');
+          clickSound.volume = 0.5;
+          clickSound.play().catch(err => console.log('Click sound failed:', err));
+          router.push("/");
+        }}
         className="absolute top-6 left-6 z-50 px-4 py-2 rounded-md bg-gradient-to-r from-red-700 to-black border border-red-800 text-red-200 font-serif hover:scale-105 transition-all duration-300 hover:shadow-[0_0_25px_rgba(255,0,0,0.7)]"
         style={{
           textShadow: "0 0 10px rgba(255, 50, 50, 0.8)",
@@ -98,6 +103,9 @@ function MageContent() {
                   boxShadow: `0 0 15px ${path.glowColor}`,
                 }}
                 onClick={() => {
+                  const clickSound = new Audio('/sound/click.mp3');
+                  clickSound.volume = 0.5;
+                  clickSound.play().catch(err => console.log('Click sound failed:', err));
                   router.push(`/book?country=${encodeURIComponent(country)}&path=${encodeURIComponent(path.title)}`);
                 }}
               >

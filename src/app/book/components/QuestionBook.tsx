@@ -100,6 +100,11 @@ export default function QuestionBook({ country, path, questions, onComplete }: Q
       return;
     }
 
+    // Play page flip sound
+    const audio = new Audio('/sound/pageflip.mp3');
+    audio.volume = 0.5;
+    audio.play().catch(err => console.log('Audio play failed:', err));
+
     // Allow the page turn
     setCurrentPage(newPage);
   }, [currentPage, answeredPages]);
@@ -122,6 +127,22 @@ export default function QuestionBook({ country, path, questions, onComplete }: Q
 
   return (
     <div className="relative">
+      {/* Return to Realm button */}
+      <button
+        onClick={() => {
+          const clickSound = new Audio('/sound/click.mp3');
+          clickSound.volume = 0.5;
+          clickSound.play().catch(err => console.log('Click sound failed:', err));
+          window.location.href = '/';
+        }}
+        className="absolute top-6 left-6 z-50 px-4 py-2 rounded-md bg-gradient-to-r from-red-700 to-black border border-red-800 text-red-200 font-serif hover:scale-105 transition-all duration-300 hover:shadow-[0_0_25px_rgba(255,0,0,0.7)] paint-font"
+        style={{
+          textShadow: "0 0 10px rgba(255, 50, 50, 0.8)",
+        }}
+      >
+        ← Return to the Realm
+      </button>
+
       {/* Book UI Controls */}
       <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-20">
         <div className="bg-black bg-opacity-70 text-white px-4 py-2 rounded-lg flex items-center gap-4 paint-font">
@@ -180,20 +201,31 @@ export default function QuestionBook({ country, path, questions, onComplete }: Q
       {/* Cover Page */}
       <Page data-density="hard" className="!border-0">
         <div 
-          className="h-full bg-amber-200 bg-cover bg-center bg-no-repeat flex flex-col items-center justify-center text-center"
+          className="h-full bg-amber-200 bg-cover bg-center bg-no-repeat flex flex-col text-center"
           style={{
             backgroundImage: "url('/book-cover.png'), url('/book-cover.jpg')",
           }}
         >
-          <h1 className="text-4xl font-bold text-amber-900 mb-4 paint-font page-title">
-            {path}
-          </h1>
-          <h2 className="text-2xl text-amber-800 mb-8 paint-font">
-            {country}
-          </h2>
-          <p className="text-amber-700 italic">
-            Turn the page to begin your journey...
-          </p>
+          {/* Top section - People's Tales */}
+          <div className="pt-8">
+            <h1 className="text-4xl font-bold text-white mb-4 paint-font page-title">
+              {path}
+            </h1>
+          </div>
+          
+          {/* Middle section - Country (larger) */}
+          <div className="flex-1 flex items-center justify-center">
+            <h2 className="text-6xl font-bold text-white paint-font">
+              {country}
+            </h2>
+          </div>
+          
+          {/* Bottom section - Turn page text */}
+          <div className="pb-8">
+            <p className="text-white paint-font">
+              Turn the page to begin your journey...
+            </p>
+          </div>
         </div>
       </Page>
 
