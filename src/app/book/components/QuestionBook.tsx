@@ -24,12 +24,38 @@ export default function QuestionBook({ country, path, questions, onComplete }: Q
   const [canTurnPage, setCanTurnPage] = useState(false);
   const [answeredPages, setAnsweredPages] = useState<Set<number>>(new Set([0, 1, 2])); // Cover, inside cover, and first question are accessible
   const [score, setScore] = useState(0);
+  const [showLockedPopup, setShowLockedPopup] = useState(false);
+  const [showResetMessage, setShowResetMessage] = useState(false);
 
   const handleAnswerSelect = useCallback((questionIndex: number, answerIndex: number) => {
     setSelectedAnswers(prev => ({
       ...prev,
       [questionIndex]: answerIndex
     }));
+  }, []);
+
+  const handleResetToStart = useCallback(() => {
+    // Flip back page by page for dramatic effect
+    const flipBackInterval = setInterval(() => {
+      const pageFlip = bookRef.current?.pageFlip();
+      if (pageFlip) {
+        const currentPageNum = pageFlip.getCurrentPageIndex();
+        if (currentPageNum > 0) {
+          pageFlip.flipPrev();
+        } else {
+          clearInterval(flipBackInterval);
+          // Reset all state after reaching the beginning
+          setTimeout(() => {
+            setAnswers([]);
+            setSelectedAnswers({});
+            setShowExplanations({});
+            setCanTurnPage(false);
+            setAnsweredPages(new Set([0, 1, 2]));
+            setScore(0);
+          }, 500);
+        }
+      }
+    }, 300); // Flip every 300ms for smooth animation
   }, []);
 
   const handleSubmitAnswer = useCallback((questionIndex: number) => {
@@ -84,8 +110,15 @@ export default function QuestionBook({ country, path, questions, onComplete }: Q
       
       setAnsweredPages(newAnsweredPages);
       setScore(newScore);
+    } else {
+      // Wrong answer - show message and reset
+      setShowResetMessage(true);
+      setTimeout(() => {
+        setShowResetMessage(false);
+        handleResetToStart();
+      }, 2000); // Show message for 2 seconds before flipping back
     }
-  }, [selectedAnswers, questions, currentPage, answeredPages, answers, score, country, path]);
+  }, [selectedAnswers, questions, currentPage, answeredPages, answers, score, country, path, handleResetToStart]);
 
 
 
@@ -94,6 +127,10 @@ export default function QuestionBook({ country, path, questions, onComplete }: Q
     
     // Check if user is trying to go to a page they haven't unlocked
     if (newPage > currentPage && !answeredPages.has(newPage)) {
+      // Show spooky popup
+      setShowLockedPopup(true);
+      setTimeout(() => setShowLockedPopup(false), 3000);
+      
       // Prevent unauthorized page turns by going back
       setTimeout(() => {
         bookRef.current?.turnToPage(currentPage);
@@ -128,6 +165,39 @@ export default function QuestionBook({ country, path, questions, onComplete }: Q
 
   return (
     <div className="relative">
+      {/* Locked Page Popup */}
+      {showLockedPopup && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
+          <div className="bg-black/90 border-4 border-red-600 rounded-lg p-8 max-w-md mx-4 shadow-[0_0_50px_rgba(255,0,0,0.8)] animate-pulse pointer-events-auto">
+            <h3 className="text-2xl font-bold text-red-500 mb-4 paint-font text-center">
+              The Path is Sealed!
+            </h3>
+            <p className="text-red-300 text-center font-serif italic leading-relaxed">
+              "The spirits bar your way, traveler...<br/>
+              Your answer was not true.<br/>
+              Choose wisely, change your fate,<br/>
+              Or forever here you'll wait."
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* Reset Message Overlay */}
+      {showResetMessage && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
+          <div className="bg-gradient-to-b from-red-900 to-black border-4 border-red-600 rounded-lg p-8 max-w-md mx-4 shadow-[0_0_50px_rgba(255,0,0,0.9)] animate-pulse">
+            <h3 className="text-3xl font-bold text-red-400 mb-4 paint-font text-center">
+              WRONG!
+            </h3>
+            <p className="text-red-200 text-center font-serif italic leading-relaxed text-lg">
+              "The spirits reject your answer...<br/>
+              The pages turn back in time...<br/>
+              Begin again, mortal."
+            </p>
+          </div>
+        </div>
+      )}
+
       {/* Return to Realm button */}
       <button
         onClick={() => {
@@ -250,50 +320,55 @@ export default function QuestionBook({ country, path, questions, onComplete }: Q
         return (
           <Page key={index}>
             <div className="h-full flex flex-col">
-              <h3 className="text-lg font-bold text-amber-800 mb-6 paint-font page-title">
-                Question {index + 1}
+              <h3 className="text-sm font-bold text-amber-800 mb-3 paint-font">
+                Q{index + 1}
                 {isAnswered && ' ✓'}
-                {canInteract && ' (Active)'}
               </h3>
               
-              <p className="text-amber-700 mb-6 leading-relaxed">
+              <p className="text-amber-700 mb-4 text-sm leading-snug">
                 {question.question}
               </p>
 
-              <div className="space-y-3 mb-6">
+              <div className="space-y-2 mb-4">
                 {question.options.map((option, optionIndex) => {
                   const isCorrectAnswer = optionIndex === question.correctAnswer;
                   const wasSelected = answers[index] === optionIndex;
                   const currentSelected = selectedAnswers[index];
+                  const isWrongAnswer = isAnswered && !isCorrectAnswer;
 
                   // Compose spooky classes
-                  const base = 'w-full p-3 text-left rounded border transition-colors spooky-option paint-font';
+                  const base = 'w-full p-2 text-left rounded border transition-colors spooky-option paint-font text-sm relative';
                   let stateClasses = '';
 
                   if (isAnswered) {
                     if (wasSelected && isCorrectAnswer) {
-                      stateClasses = 'spooky-correct border-green-400';
+                      stateClasses = 'spooky-correct border-green-400 bg-green-50';
                     } else if (wasSelected) {
-                      stateClasses = 'spooky-wrong border-red-400';
+                      stateClasses = 'spooky-wrong border-red-400 bg-red-50';
                     } else if (isCorrectAnswer) {
-                      stateClasses = 'spooky-correct border-green-300';
+                      stateClasses = 'spooky-correct border-green-300 bg-green-50';
                     } else {
-                      stateClasses = 'bg-gray-800/10 border-gray-600 text-gray-300';
+                      stateClasses = 'bg-gray-100 border-red-600 text-red-600';
                     }
                   } else if (!canInteract) {
                     stateClasses = 'bg-gray-800/5 border-gray-700 text-gray-400 cursor-not-allowed';
                   } else if (currentSelected === optionIndex) {
-                    stateClasses = 'bg-amber-600/10 border-amber-400 text-amber-300';
+                    stateClasses = 'bg-amber-200 border-amber-600 text-amber-900 font-bold shadow-lg';
                   } else {
-                    stateClasses = 'bg-[#0b0b0b] border-amber-300 hover:shadow-[0_10px_30px_rgba(255,140,0,0.08)] hover:scale-[1.01] text-amber-100';
+                    stateClasses = 'bg-amber-50 border-amber-300 hover:bg-amber-100 hover:border-amber-500 text-amber-900';
                   }
 
                   return (
                     <button
                       key={optionIndex}
-                      onClick={() => canInteract ? handleAnswerSelect(index, optionIndex) : null}
-                      disabled={!canInteract}
+                      onClick={() => canInteract && !isAnswered ? handleAnswerSelect(index, optionIndex) : null}
+                      disabled={!canInteract || isAnswered}
                       className={`${base} ${stateClasses}`}
+                      style={isAnswered && !isCorrectAnswer && !wasSelected ? {
+                        textDecoration: 'line-through',
+                        textDecorationColor: '#dc2626',
+                        textDecorationThickness: '2px'
+                      } : undefined}
                     >
                       <span className="mr-3 font-bold text-lg">{String.fromCharCode(65 + optionIndex)}</span>
                       <span>{option}</span>
@@ -305,34 +380,34 @@ export default function QuestionBook({ country, path, questions, onComplete }: Q
               {canInteract && selectedAnswers[index] !== null && selectedAnswers[index] !== undefined && !showExplanations[index] && (
                 <button
                   onClick={() => handleSubmitAnswer(index)}
-                  className="bg-amber-600 text-white px-6 py-2 rounded hover:bg-amber-700 transition-colors"
+                  className="bg-amber-600 text-white px-4 py-1.5 text-sm rounded hover:bg-amber-700 transition-colors"
                 >
-                  Submit Answer
+                  Submit
                 </button>
               )}
 
               {canInteract && showExplanations[index] && (
-                <div className={`p-4 rounded ${
+                <div className={`p-3 rounded text-sm ${
                   selectedAnswers[index] === question.correctAnswer
                     ? 'bg-green-100 border border-green-300'
                     : 'bg-red-100 border border-red-300'
                 }`}>
-                  <p className={`font-bold mb-2 ${
+                  <p className={`font-bold mb-1 ${
                     selectedAnswers[index] === question.correctAnswer
                       ? 'text-green-800'
                       : 'text-red-800'
                   }`}>
                     {selectedAnswers[index] === question.correctAnswer ? 'Correct!' : 'Incorrect!'}
                   </p>
-                  <p className="text-gray-700 text-sm">
+                  <p className="text-gray-700 text-xs">
                     {question.explanation}
                   </p>
-                  {selectedAnswers[index] === question.correctAnswer && (
-                    <div className="mt-3">
+                  {selectedAnswers[index] === question.correctAnswer ? (
+                    <div className="mt-2">
                       {canTurnPage ? (
                         <>
-                          <p className="text-green-600 text-sm mb-2 italic">
-                            Correct! You may turn the page.
+                          <p className="text-green-600 text-xs mb-1 italic">
+                            You may turn the page.
                           </p>
                           <button
                             onClick={() => {
@@ -341,25 +416,31 @@ export default function QuestionBook({ country, path, questions, onComplete }: Q
                                 setCanTurnPage(false);
                               }
                             }}
-                            className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition-colors text-sm"
+                            className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700 transition-colors text-xs"
                           >
                             Turn Page →
                           </button>
                         </>
                       ) : (
-                        <p className="text-green-600 text-sm italic">
-                          Correct! Continue with the next question on this spread.
+                        <p className="text-green-600 text-xs italic">
+                          Continue with next question.
                         </p>
                       )}
+                    </div>
+                  ) : (
+                    <div className="mt-2">
+                      <p className="text-red-600 text-xs italic animate-pulse">
+                        The spirits reject your answer... Returning to the beginning...
+                      </p>
                     </div>
                   )}
                 </div>
               )}
 
               {isAnswered && !canInteract && (
-                <div className="p-4 rounded bg-gray-50 border border-gray-200">
-                  <p className="text-gray-600 text-sm italic">
-                    Question completed. {answers[index] === question.correctAnswer ? 'Correct!' : 'Incorrect.'}
+                <div className="p-2 rounded bg-gray-50 border border-gray-200">
+                  <p className="text-gray-600 text-xs italic">
+                    {answers[index] === question.correctAnswer ? '✓ Correct' : '✗ Incorrect'}
                   </p>
                   <p className="text-gray-500 text-xs mt-1">
                     {question.explanation}

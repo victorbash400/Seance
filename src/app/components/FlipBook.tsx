@@ -114,12 +114,12 @@ const FlipBook = forwardRef<FlipBookRef, FlipBookProps>(({ children, onFlip, onC
   className={`shadow-2xl book-3d ${className}`}
   style={{ zIndex: 1 }}
         startPage={0}
-        clickEventForward={true}
+        clickEventForward={false}
         useMouseEvents={true}
         swipeDistance={30}
         renderOnlyPageLengthChange={false}
         showPageCorners={true}
-        disableFlipByClick={false}
+        disableFlipByClick={true}
       >
         {children}
       </HTMLFlipBook>

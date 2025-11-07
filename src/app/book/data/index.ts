@@ -1,5 +1,5 @@
 import { BookData } from "../types";
-import { peoplesTales } from "./peoples-tales";
+import { hauntedHistories } from "./peoples-tales";
 import { crownsSecrets } from "./crowns-secrets";
 import { merchantsLedger } from "./merchants-ledger";
 
@@ -24,7 +24,7 @@ import { merchantsLedger } from "./merchants-ledger";
 
 // Get all unique country names from all three paths
 const allCountries = new Set([
-  ...Object.keys(peoplesTales),
+  ...Object.keys(hauntedHistories),
   ...Object.keys(crownsSecrets),
   ...Object.keys(merchantsLedger)
 ]);
@@ -34,7 +34,7 @@ export const bookData: BookData = {};
 
 for (const country of allCountries) {
   bookData[country] = {
-    "People's Tales": peoplesTales[country] || [],
+    "People's Tales": hauntedHistories[country] || [],
     "Crown's Secrets": crownsSecrets[country] || [],
     "Merchant's Ledger": merchantsLedger[country] || []
   };

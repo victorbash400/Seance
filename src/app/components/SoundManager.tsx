@@ -13,6 +13,7 @@ export default function SoundManager({ enablePageFlip = false }: SoundManagerPro
   const backgroundMusicRef = useRef<HTMLAudioElement | null>(null);
   const owlTimerRef = useRef<NodeJS.Timeout | null>(null);
   const wolfTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const heartbeatTimerRef = useRef<NodeJS.Timeout | null>(null);
   const ambientVolumeRef = useRef(0.4);
   const isMutedRef = useRef(false);
   const volumeRef = useRef(50);
@@ -62,14 +63,29 @@ export default function SoundManager({ enablePageFlip = false }: SoundManagerPro
       }, delay);
     };
 
+    // Schedule random heartbeats (every 30-50 seconds - less frequent)
+    const scheduleHeartbeat = () => {
+      const delay = Math.random() * 20000 + 30000; // 30-50 seconds
+      heartbeatTimerRef.current = setTimeout(() => {
+        if (!isMutedRef.current && volumeRef.current > 0) {
+          const heartbeat = new Audio('/sound/heartbeat.mp3');
+          heartbeat.volume = ambientVolumeRef.current * 0.7; // Slightly quieter
+          heartbeat.play().catch(err => console.log('Heartbeat sound failed:', err));
+        }
+        scheduleHeartbeat();
+      }, delay);
+    };
+
     scheduleOwl();
     scheduleWolf();
+    scheduleHeartbeat();
 
     // Cleanup
     return () => {
       bgMusic.pause();
       if (owlTimerRef.current) clearTimeout(owlTimerRef.current);
       if (wolfTimerRef.current) clearTimeout(wolfTimerRef.current);
+      if (heartbeatTimerRef.current) clearTimeout(heartbeatTimerRef.current);
     };
   }, []);
 
@@ -108,29 +124,31 @@ export default function SoundManager({ enablePageFlip = false }: SoundManagerPro
 
   return (
     <div 
-      className="fixed bottom-4 left-4 z-50 flex items-center gap-2"
+      className="fixed bottom-4 left-4 z-50 flex flex-col items-center gap-2"
       onMouseEnter={() => setShowVolumeSlider(true)}
       onMouseLeave={() => setShowVolumeSlider(false)}
     >
-      {/* Volume Slider */}
+      {/* Volume Slider - Vertical */}
       <div 
         className={`transition-all duration-300 overflow-hidden ${
-          showVolumeSlider ? 'w-32 opacity-100' : 'w-0 opacity-0'
+          showVolumeSlider ? 'h-32 opacity-100' : 'h-0 opacity-0'
         }`}
       >
-        <div className="bg-black bg-opacity-70 px-3 py-2 rounded-full flex items-center gap-2">
+        <div className="bg-black bg-opacity-70 px-2 py-3 rounded-full flex flex-col items-center gap-2">
+          <span className="text-white text-xs">{volume}%</span>
           <input
             type="range"
             min="0"
             max="100"
             value={volume}
             onChange={handleVolumeChange}
-            className="w-full h-1 bg-gray-600 rounded-lg appearance-none cursor-pointer accent-orange-500"
+            className="h-20 w-1 bg-gray-600 rounded-lg appearance-none cursor-pointer accent-orange-500"
             style={{
-              background: `linear-gradient(to right, #f97316 0%, #f97316 ${volume}%, #4b5563 ${volume}%, #4b5563 100%)`
+              writingMode: 'vertical-lr',
+              direction: 'rtl',
+              background: `linear-gradient(to top, #f97316 0%, #f97316 ${volume}%, #4b5563 ${volume}%, #4b5563 100%)`
             }}
           />
-          <span className="text-white text-xs w-8 text-right">{volume}%</span>
         </div>
       </div>
 

@@ -72,8 +72,8 @@ The FlipBook component is a custom wrapper around react-pageflip with the follow
 ### Component Configuration
 - **Dimensions**: Fixed 640px × 480px for consistent experience
 - **Animation**: 600ms flip timing with realistic shadows
-- **Interaction**: Touch, mouse, and click support with 30px swipe distance for gestures
-- **Click-to-Flip**: Pages can be flipped by clicking on page corners
+- **Interaction**: Touch, mouse, and swipe support with 30px swipe distance for gestures
+- **Click-to-Flip**: Disabled - pages must be turned using navigation buttons or swipe gestures
 - **Accessibility**: Keyboard navigation and screen reader support
 
 ### Enhanced Features
@@ -82,7 +82,7 @@ The FlipBook component is a custom wrapper around react-pageflip with the follow
 - **Event Handling**: Comprehensive flip event system for quiz progression
 - **Audio Feedback**: Page flip sound effects triggered on page turns (volume: 0.5, graceful failure handling)
 - **Mobile Optimization**: Touch-friendly interactions with swipe gestures
-- **Multiple Interaction Methods**: Supports clicking page corners, swiping, and programmatic navigation
+- **Controlled Navigation**: Pages can only be turned via navigation buttons, swipe gestures, or programmatic API calls
 
 ### Smart Page Progression
 - Pages unlock based on correct quiz answers
