@@ -1,0 +1,13 @@
+{
+  "enabled": true,
+  "name": "Kiroween README Beautifier",
+  "description": "Watches the README.md file and automatically enhances it with Halloween-themed badges, deeper descriptions, graphs, and Kiroween hackathon branding. Adds spooky design elements including dark mode styling, haunting emojis, and polished formatting that makes the documentation unforgettable.",
+  "version": "1",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "The README.md file has been modified. Transform it into a beautiful, haunting document worthy of the Kiroween hackathon! Add:\n\n1. **Badges at the top**: Include shields.io badges for Next.js, React, TypeScript, Three.js, and a custom Kiroween 🎃 badge\n2. **Spooky theme**: Use Halloween emojis (🎃, 👻, 🕷️, 🦇, 🕸️, 💀, 🌙) throughout\n3. **Deeper descriptions**: Expand on the Seance project features, the immersive 3D effects, and the mystical experience\n4. **Visual elements**: Add ASCII art banners, dividers with spooky characters, and dark mode code blocks\n5. **Graphs/diagrams**: Include mermaid diagrams showing architecture, component relationships, or user flow\n6. **Kiroween branding**: Highlight that this is a Kiroween hackathon project with a \"Costume Contest\" polished UI\n7. **Dark aesthetic**: Use formatting that looks great in dark mode with proper contrast\n8. **Feature showcase**: Create visually appealing sections for smoke effects, page-flip book, world map, etc.\n9. **Installation/usage**: Make setup instructions clear and visually organized\n10. **Screenshots section**: Prepare placeholders for haunting UI screenshots\n\nMake it wicked, polished, and unforgettable! The README should be as atmospheric as the app itself."
+  }
+}

@@ -145,6 +145,7 @@
   - _Requirements: 1.2, 1.3, 3.2, 3.3_
 
 - [x]* 17. Write integration tests
+
   - Test complete quiz flow from start to finish
   - Test progress persistence across sessions
   - Test path switching without data loss
